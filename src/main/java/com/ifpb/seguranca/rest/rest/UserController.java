@@ -1,5 +1,7 @@
 package com.ifpb.seguranca.rest.rest;
 
+import com.ifpb.seguranca.rest.jwt.JwtTokenUtil;
+import com.ifpb.seguranca.rest.jwt.UserLoged;
 import com.ifpb.seguranca.rest.model.domain.User;
 import com.ifpb.seguranca.rest.service.UserService;
 import com.ifpb.seguranca.rest.service.UserServiceIF;
@@ -70,7 +72,10 @@ public class UserController {
             LOG.info("Autenticando com os dados\nEmail: "+email+"\nSenha: "+password);
             User user = userService.auth(email,password);
             if (user != null){
-                return Response.ok().build();
+                UserLoged loged = new UserLoged();
+                loged.setEmail(user.getEmail());
+                loged.setToken(JwtTokenUtil.encode(user.getEmail()));
+                return Response.ok().entity(loged).build();
             }
         }
         return Response.status(Response.Status.UNAUTHORIZED).build();
