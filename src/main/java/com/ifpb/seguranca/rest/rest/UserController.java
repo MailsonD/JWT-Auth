@@ -16,6 +16,14 @@ import java.net.URI;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * @author Mailson Dennis
+ * @email mailssondennis@gmail.com
+ *
+ * Classe que comporta todas as rotas principais da aplicação.
+ * Para o acesso de todas as rodas aqui definidas (com exceção de /auth) é necessário
+ * o token de acesso gerado através da autenticação.
+ */
 @Stateless
 @Path("user")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -28,6 +36,32 @@ public class UserController {
     private UriInfo uriInfo;
 
     private Logger LOG = Logger.getLogger(UserController.class.getName());
+
+    /**
+     * Método de autenticação do usuário. Responsável por chamar a criação do token quando
+     * autentica um usuário.
+     * @see JwtTokenUtil
+     * @param jsonObject -> Objeto JSON com os dados de email e senha do usuário a se autenticar
+     * @return -> Um Response com o token do usuário caso a autenticação seja feita. Caso contrário
+     * ele lançará um status de Unauthorized para o usuário.
+     */
+    @POST
+    @Path("auth")
+    public Response auth(JsonObject jsonObject){
+        String email = jsonObject.getString("email");
+        String password = jsonObject.getString("password");
+        if(email != null && password != null){
+            LOG.info("Autenticando com os dados\nEmail: "+email+"\nSenha: "+password);
+            User user = userService.auth(email,password);
+            if (user != null){
+                UserLoged loged = new UserLoged();
+                loged.setEmail(user.getEmail());
+                loged.setToken(JwtTokenUtil.encode(user.getEmail()));
+                return Response.ok().entity(loged).build();
+            }
+        }
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
 
     @GET
     public Response findAll(){
@@ -61,24 +95,6 @@ public class UserController {
         URI uri = uriInfo.getAbsolutePathBuilder().path(object.getString("email")).build();
 
         return Response.created(uri).build();
-    }
-
-    @POST
-    @Path("auth")
-    public Response auth(JsonObject jsonObject){
-        String email = jsonObject.getString("email");
-        String password = jsonObject.getString("password");
-        if(email != null && password != null){
-            LOG.info("Autenticando com os dados\nEmail: "+email+"\nSenha: "+password);
-            User user = userService.auth(email,password);
-            if (user != null){
-                UserLoged loged = new UserLoged();
-                loged.setEmail(user.getEmail());
-                loged.setToken(JwtTokenUtil.encode(user.getEmail()));
-                return Response.ok().entity(loged).build();
-            }
-        }
-        return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
     @DELETE

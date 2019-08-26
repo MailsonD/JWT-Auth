@@ -7,6 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * @author Mailson Dennis
+ * @email mailssondennis@gmail.com
+ */
 @Stateless
 public class UserDao implements UserDaoIF {
 

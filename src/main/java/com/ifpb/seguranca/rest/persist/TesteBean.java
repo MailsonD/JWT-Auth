@@ -1,4 +1,4 @@
-package com.ifpb.seguranca.rest;
+package com.ifpb.seguranca.rest.persist;
 
 import com.ifpb.seguranca.rest.model.domain.User;
 import com.ifpb.seguranca.rest.service.UserService;
@@ -10,6 +10,10 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 import javax.persistence.PersistenceContext;
 
+/**
+ * @author Mailson Dennis
+ * @email mailssondennis@gmail.com
+ */
 @Singleton
 @Startup
 public class TesteBean {

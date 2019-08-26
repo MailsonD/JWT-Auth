@@ -6,6 +6,10 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * @author Mailson Dennis
+ * @email mailssondennis@gmail.com
+ */
 @Entity
 @Table(name = "usuario")
 public class User implements Serializable {

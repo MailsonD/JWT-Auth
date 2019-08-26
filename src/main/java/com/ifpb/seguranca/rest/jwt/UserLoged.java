@@ -3,6 +3,13 @@ package com.ifpb.seguranca.rest.jwt;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * @author Mailson Dennis
+ * @email mailssondennis@gmail.com
+ *
+ * Esta classe serve como objeto de transferência de dados do usuário logado
+ * que comporta as informações do usuário e o token de acesso.
+ */
 public class UserLoged implements Serializable {
 
     private String email;

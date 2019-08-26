@@ -9,6 +9,10 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
 
+/**
+ * @author Mailson Dennis
+ * @email mailssondennis@gmail.com
+ */
 @Stateless
 public class UserService implements UserServiceIF {
 
