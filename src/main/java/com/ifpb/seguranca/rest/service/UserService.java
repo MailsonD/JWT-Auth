@@ -37,4 +37,13 @@ public class UserService implements UserServiceIF {
     public List<User> findAll() {
         return userDao.findAll();
     }
+
+    @Override
+    public User auth(String email, String password) {
+        User user = find(email);
+        if(user != null && user.getPassword().equals(password)){
+            return user;
+        }
+        return null;
+    }
 }
